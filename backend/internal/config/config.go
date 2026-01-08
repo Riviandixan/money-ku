@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -38,9 +39,9 @@ func Load() (*Config, error) {
 		fmt.Println("Warning: .env file not found, using environment variables")
 	}
 
-	rawDSN := os.Getenv("DATABASE_URL")
+	rawDSN := strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	if rawDSN == "" {
-		rawDSN = os.Getenv("DB_URL")
+		rawDSN = strings.TrimSpace(os.Getenv("DB_URL"))
 	}
 
 	config := &Config{
@@ -79,7 +80,7 @@ func (c *Config) GetDSN() string {
 }
 
 func getEnv(key, defaultValue string) string {
-	if value := os.Getenv(key); value != "" {
+	if value := strings.TrimSpace(os.Getenv(key)); value != "" {
 		return value
 	}
 	return defaultValue
