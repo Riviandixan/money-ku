@@ -1,0 +1,54 @@
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-tabs {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 2px solid var(--border-secondary);
+}
+
+.transaction-tab {
+  flex: 1;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-bottom: -2px;
+}
+
+.transaction-tab:hover {
+  color: var(--text-primary);
+  background: var(--hover-overlay);
+}
+
+.transaction-tab.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+.transaction-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.transaction-form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-secondary);
+}
+
+.transaction-form-actions button {
+  min-width: 120px;
+}

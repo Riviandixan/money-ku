@@ -1,0 +1,113 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-menu-btn {
+  display: none;
+}
+
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-left: var(--spacing-xs);
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  /* -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+  background-clip: text;
+}
+
+.header-nav {
+  display: flex;
+  gap: var(--spacing-md);
+  margin: 0 var(--spacing-xl);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+  color: var(--primary);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.user-greeting {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-right: var(--spacing-sm);
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .user-greeting {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-nav {
+    display: none; /* Mobile menu implementation needed if priority */
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .header-menu-btn {
+    display: flex;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+  }
+}

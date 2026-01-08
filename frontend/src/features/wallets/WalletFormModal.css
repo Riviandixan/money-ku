@@ -1,0 +1,18 @@
+.wallet-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.wallet-form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-secondary);
+}
+
+.wallet-form-actions button {
+  min-width: 120px;
+}
