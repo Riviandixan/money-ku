@@ -11,6 +11,7 @@ type Config struct {
 	Database DatabaseConfig
 	Server   ServerConfig
 	JWT      JWTConfig
+	RawDSN   string // If provided via DB_URL or DATABASE_URL
 }
 
 type DatabaseConfig struct {
@@ -37,7 +38,13 @@ func Load() (*Config, error) {
 		fmt.Println("Warning: .env file not found, using environment variables")
 	}
 
+	rawDSN := os.Getenv("DATABASE_URL")
+	if rawDSN == "" {
+		rawDSN = os.Getenv("DB_URL")
+	}
+
 	config := &Config{
+		RawDSN: rawDSN,
 		Database: DatabaseConfig{
 			Host:     getEnv("DB_HOST", "127.0.0.1"),
 			Port:     getEnv("DB_PORT", "5432"),
@@ -58,6 +65,9 @@ func Load() (*Config, error) {
 
 // GetDSN returns the PostgreSQL connection string
 func (c *Config) GetDSN() string {
+	if c.RawDSN != "" {
+		return c.RawDSN
+	}
 	return fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		c.Database.Host,
