@@ -61,7 +61,7 @@ const TransactionItem = ({
         </div>
         
         <div className="transaction-item-details">
-          <span className="transaction-item-date">{formatDate(transaction.date, 'short')}</span>
+          <span className="transaction-item-date">{formatDate(transaction.date, 'withTime')}</span>
           {showWallet && wallet && (
             <>
               <span className="transaction-item-separator">•</span>

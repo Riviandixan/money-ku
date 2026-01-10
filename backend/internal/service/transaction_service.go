@@ -38,12 +38,18 @@ func (s *TransactionService) CreateTransaction(userID int, req CreateTransaction
 	// Parse date
 	var transactionDate time.Time
 	var err error
+	now := time.Now()
 	if req.Date == "" {
-		transactionDate = time.Now()
+		transactionDate = now
 	} else {
 		// Try parsing YYYY-MM-DD
 		transactionDate, err = time.Parse("2006-01-02", req.Date)
-		if err != nil {
+		if err == nil {
+			// If it's today's date, use current time
+			if transactionDate.Format("2006-01-02") == now.Format("2006-01-02") {
+				transactionDate = now
+			}
+		} else {
 			// Try parsing RFC3339 as fallback
 			transactionDate, err = time.Parse(time.RFC3339, req.Date)
 			if err != nil {

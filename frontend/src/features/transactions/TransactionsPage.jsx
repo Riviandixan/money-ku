@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Filter } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useTransaction } from '../../context/TransactionContext';
 import { useWallet } from '../../context/WalletContext';
 import TransactionItem from '../../shared/components/TransactionItem';
@@ -71,8 +71,7 @@ const TransactionsPage = () => {
           <div className="transactions-list">
             {filteredTransactions.map(transaction => {
               const wallet = wallets.find(
-                w => w.id === transaction.walletId || 
-                     w.id === transaction.fromWalletId
+                w => w.id === transaction.wallet_id
               );
               return (
                 <TransactionItem

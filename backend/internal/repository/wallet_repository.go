@@ -119,8 +119,8 @@ func (r *walletRepository) FindByID(id int) (*domain.Wallet, error) {
 func (r *walletRepository) Update(wallet *domain.Wallet) error {
 	query := `
 		UPDATE wallets
-		SET name = $1, currency = $2, type = $3, icon = $4, color = $5, updated_at = $6
-		WHERE id = $7
+		SET name = $1, balance = $2, currency = $3, type = $4, icon = $5, color = $6, updated_at = $7
+		WHERE id = $8
 	`
 
 	wallet.UpdatedAt = time.Now()
@@ -129,6 +129,7 @@ func (r *walletRepository) Update(wallet *domain.Wallet) error {
 		context.Background(),
 		query,
 		wallet.Name,
+		wallet.Balance,
 		wallet.Currency,
 		wallet.Type,
 		wallet.Icon,

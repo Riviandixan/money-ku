@@ -28,11 +28,12 @@ type CreateWalletRequest struct {
 }
 
 type UpdateWalletRequest struct {
-	Name     string `json:"name"`
-	Currency string `json:"currency"`
-	Type     string `json:"type"`
-	Icon     string `json:"icon"`
-	Color    string `json:"color"`
+	Name     string  `json:"name"`
+	Balance  float64 `json:"balance"`
+	Currency string  `json:"currency"`
+	Type     string  `json:"type"`
+	Icon     string  `json:"icon"`
+	Color    string  `json:"color"`
 }
 
 func (s *WalletService) CreateWallet(userID int, req CreateWalletRequest) (*domain.Wallet, error) {
@@ -95,6 +96,9 @@ func (s *WalletService) UpdateWallet(walletID int, userID int, req UpdateWalletR
 	if req.Name != "" {
 		wallet.Name = req.Name
 	}
+	// Always update balance if provided (even if 0)
+	wallet.Balance = req.Balance
+
 	if req.Currency != "" {
 		wallet.Currency = req.Currency
 	}

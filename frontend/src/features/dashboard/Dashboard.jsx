@@ -10,17 +10,31 @@ import Card from '../../shared/components/Card';
 import Button from '../../shared/components/Button';
 import WalletCard from '../../shared/components/WalletCard';
 import TransactionItem from '../../shared/components/TransactionItem';
+import Input from '../../shared/components/Input';
+import { Doughnut } from 'react-chartjs-2';
+import { 
+  Chart as ChartJS, 
+  ArcElement, 
+  Tooltip, 
+  Legend, 
+  CategoryScale, 
+  LinearScale, 
+  BarElement 
+} from 'chart.js';
 import WalletFormModal from '../wallets/WalletFormModal';
 import TransactionFormModal from '../transactions/TransactionFormModal';
 import './Dashboard.css';
 
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
+
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { wallets, getTotalBalance, getTotalByType } = useWallet();
+  const { wallets, getTotalByType } = useWallet();
   const { getRecentTransactions, calculatePeriodTotals } = useTransaction();
   
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+  const [filterDate, setFilterDate] = useState(new Date().toISOString().split('T')[0]);
 
   // Get current month data
   const { startDate, endDate } = getDateRangePreset('thisMonth');
@@ -28,8 +42,8 @@ const Dashboard = () => {
   const recentTransactions = getRecentTransactions(5);
 
   // Calculate stats
-  const totalBalance = getTotalBalance();
-  const totalSavings = getTotalByType('Tabungan') + getTotalByType('Income');
+  const totalBalance = getTotalByType('tabungan');
+  const totalSavings = getTotalByType('tabungan');
   const monthlyIncome = monthlyTotals.income;
   const monthlyExpense = monthlyTotals.expense;
 
@@ -45,6 +59,13 @@ const Dashboard = () => {
           <p className="dashboard-subtitle">Ringkasan keuangan Anda</p>
         </div>
         <div className="dashboard-actions">
+          {/* <Input 
+            type="date"
+            name="filterDate"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="dashboard-date-filter"
+          /> */}
           <Button 
             variant="tertiary" 
             icon={Wallet}
@@ -111,14 +132,42 @@ const Dashboard = () => {
             </Button>
           </Card>
         ) : (
-          <div className="dashboard-wallets">
-            {wallets.slice(0, 3).map(wallet => (
-              <WalletCard
-                key={wallet.id}
-                wallet={wallet}
-                onView={handleViewWallet}
-              />
-            ))}
+          <div className="dashboard-wallets-container">
+            <div className="dashboard-wallets">
+              {wallets.map(wallet => (
+                <WalletCard
+                  key={wallet.id}
+                  wallet={wallet}
+                  onView={handleViewWallet}
+                />
+              ))}
+            </div>
+            
+            {wallets.length > 0 && (
+              <Card className="dashboard-wallets-chart">
+                <h3>Distribusi Saldo</h3>
+                <div className="mini-chart-container">
+                  <Doughnut 
+                    data={{
+                      labels: wallets.map(w => w.name),
+                      datasets: [{
+                        data: wallets.map(w => w.balance),
+                        backgroundColor: [
+                          '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'
+                        ],
+                        borderWidth: 0
+                      }]
+                    }}
+                    options={{
+                      plugins: {
+                        legend: { display: false }
+                      },
+                      maintainAspectRatio: false
+                    }}
+                  />
+                </div>
+              </Card>
+            )}
           </div>
         )}
       </div>
@@ -147,8 +196,7 @@ const Dashboard = () => {
           <Card padding="sm" className="dashboard-transactions">
             {recentTransactions.map(transaction => {
               const wallet = wallets.find(
-                w => w.id === transaction.walletId || 
-                     w.id === transaction.fromWalletId
+                w => w.id === transaction.wallet_id
               );
               return (
                 <TransactionItem

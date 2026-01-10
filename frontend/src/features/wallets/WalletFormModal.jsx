@@ -108,10 +108,8 @@ const WalletFormModal = ({ isOpen, onClose, wallet = null }) => {
           value={formData.type}
           onChange={handleChange}
           options={[
-            { value: 'Umum', label: 'Umum' },
-            { value: 'Pengeluaran', label: 'Pengeluaran' },
-            { value: 'Tabungan', label: 'Tabungan' },
-            { value: 'Income', label: 'Pemasukan (Income)' }
+            { value: 'tabungan', label: 'Tabungan' },
+            { value: 'transaksi', label: 'Transaksi' }
           ]}
           error={errors.type}
           required
@@ -120,12 +118,10 @@ const WalletFormModal = ({ isOpen, onClose, wallet = null }) => {
         <Input
           label="Saldo Awal"
           name="balance"
-          type="number"
+          type="currency"
           value={formData.balance}
           onChange={handleChange}
           placeholder="0"
-          min="0"
-          step="1000"
           error={errors.balance}
           required
         />
@@ -133,12 +129,10 @@ const WalletFormModal = ({ isOpen, onClose, wallet = null }) => {
         <Input
           label="Budget (Opsional)"
           name="budget"
-          type="number"
+          type="currency"
           value={formData.budget}
           onChange={handleChange}
           placeholder="0"
-          min="0"
-          step="1000"
           error={errors.budget}
         />
 

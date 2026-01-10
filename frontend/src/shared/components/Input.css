@@ -4,24 +4,16 @@
 }
 
 .input-label {
-  position: absolute;
-  left: var(--spacing-md);
-  top: 50%;
-  transform: translateY(-50%);
+  display: block;
+  margin-bottom: var(--spacing-xs);
   color: var(--text-secondary);
-  font-size: 1rem;
-  pointer-events: none;
-  transition: all var(--transition-base);
-  background: transparent;
-  padding: 0 var(--spacing-xs);
-  z-index: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--transition-base);
 }
 
-.input-label-float {
-  top: 0;
-  font-size: 0.75rem;
-  color: var(--accent-primary);
-  background: var(--bg-primary);
+.input-label-error {
+  color: var(--color-error);
 }
 
 .input-required {
@@ -61,6 +53,7 @@
 select.input-field {
   cursor: pointer;
   -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -100,9 +93,29 @@ textarea.input-field {
 input[type="number"].input-field::-webkit-inner-spin-button,
 input[type="number"].input-field::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
 input[type="number"].input-field {
   -moz-appearance: textfield;
+}
+
+/* Currency input specific styles */
+.currency-input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.currency-prefix {
+  position: absolute;
+  left: var(--spacing-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.currency-input-container .input-field {
+  padding-left: calc(var(--spacing-md) + 25px);
 }

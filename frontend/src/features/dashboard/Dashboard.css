@@ -57,10 +57,50 @@
   margin: 0;
 }
 
+.dashboard-wallets-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-lg);
+}
+
 .dashboard-wallets {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--spacing-lg);
+}
+
+.dashboard-wallets-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-wallets-chart h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.mini-chart-container {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-date-filter {
+  margin-bottom: 0 !important;
+}
+
+.dashboard-date-filter .input-field {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-wallets-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dashboard-transactions {

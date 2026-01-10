@@ -11,13 +11,13 @@ import {
   PointElement,
   LineElement
 } from 'chart.js';
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { useTransaction } from '../../context/TransactionContext';
-import { formatCurrency } from '../../utils/formatters';
-import { startOfMonth, endOfMonth, eachDayOfInterval, format, subMonths, isSameDay, parseISO } from 'date-fns';
+import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameDay, parseISO } from 'date-fns';
+import { formatDateForInput } from '../../utils/formatters';
 import { id } from 'date-fns/locale';
+import Input from '../../shared/components/Input';
 import Card from '../../shared/components/Card';
-import Button from '../../shared/components/Button';
 import './ReportsPage.css';
 
 // Register ChartJS components
@@ -35,19 +35,19 @@ ChartJS.register(
 
 const ReportsPage = () => {
   const { transactions } = useTransaction();
-  const [period, setPeriod] = useState('month'); // month, year
+  const [startDate, setStartDate] = useState(formatDateForInput(startOfMonth(new Date())));
+  const [endDate, setEndDate] = useState(formatDateForInput(endOfMonth(new Date())));
 
-  // Helper to filter transactions by current month
-  const currentMonthTransactions = useMemo(() => {
-    const now = new Date();
-    const start = startOfMonth(now);
-    const end = endOfMonth(now);
+  // Helper to filter transactions by current period
+  const filteredTransactions = useMemo(() => {
+    const start = parseISO(startDate);
+    const end = parseISO(endDate);
     
     return transactions.filter(t => {
       const date = parseISO(t.date);
       return date >= start && date <= end;
     });
-  }, [transactions]);
+  }, [transactions, startDate, endDate]);
 
   // Chart 1: Income vs Expense (Bar Chart) - Last 7 Days
   const barChartData = useMemo(() => {
@@ -95,7 +95,7 @@ const ReportsPage = () => {
 
   // Chart 2: Expense by Category (Doughnut)
   const doughnutChartData = useMemo(() => {
-    const expenses = currentMonthTransactions.filter(t => t.type === 'expense');
+    const expenses = filteredTransactions.filter(t => t.type === 'expense');
     const categories = {};
 
     expenses.forEach(t => {
@@ -121,7 +121,7 @@ const ReportsPage = () => {
         },
       ],
     };
-  }, [currentMonthTransactions]);
+  }, [filteredTransactions]);
 
   const chartOptions = {
     responsive: true,
@@ -164,6 +164,20 @@ const ReportsPage = () => {
         <div>
           <h1 className="page-title">Laporan Keuangan</h1>
           <p className="page-subtitle">Analisis pemasukan dan pengeluaran Anda</p>
+        </div>
+        <div className="report-filters">
+          <Input 
+            type="date"
+            name="startDate"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          <Input 
+            type="date"
+            name="endDate"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
         </div>
       </div>
 

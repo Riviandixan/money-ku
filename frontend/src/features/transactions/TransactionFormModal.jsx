@@ -189,12 +189,10 @@ const TransactionFormModal = ({ isOpen, onClose }) => {
           <Input
             label="Jumlah"
             name="amount"
-            type="number"
+            type="currency"
             value={formData.amount}
             onChange={handleChange}
             placeholder="0"
-            min="0"
-            step="1000"
             error={errors.amount}
             required
           />

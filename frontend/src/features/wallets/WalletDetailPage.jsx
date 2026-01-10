@@ -15,7 +15,7 @@ import './WalletDetailPage.css';
 const WalletDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getWalletById } = useWallet();
+  const { getWalletById, deleteWallet } = useWallet();
   const { transactions } = useTransaction();
   
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -35,16 +35,27 @@ const WalletDetailPage = () => {
 
   // Filter transactions for this wallet
   const walletTransactions = transactions.filter(
-    t => t.walletId === id || t.fromWalletId === id || t.toWalletId === id
+    t => t.wallet_id === parseInt(id) || t.to_wallet_id === parseInt(id)
   ).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const handleDeleteWallet = async () => {
+    if (window.confirm('Apakah Anda yakin ingin menghapus dompet ini? Semua riwayat transaksi akan tetap ada namun referensi dompet mungkin hilang.')) {
+      const result = await deleteWallet(parseInt(id));
+      if (result.success) {
+        navigate('/wallets');
+      } else {
+        alert(result.message || 'Gagal menghapus dompet');
+      }
+    }
+  };
 
   // Calculate stats
   const totalIncome = walletTransactions
-    .filter(t => t.type === 'income' && t.walletId === id)
+    .filter(t => t.type === 'income' && t.wallet_id === parseInt(id))
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = walletTransactions
-    .filter(t => t.type === 'expense' && t.walletId === id)
+    .filter(t => t.type === 'expense' && t.wallet_id === parseInt(id))
     .reduce((sum, t) => sum + t.amount, 0);
 
   return (
@@ -54,11 +65,14 @@ const WalletDetailPage = () => {
           Kembali
         </Button>
         <div className="wallet-detail-actions">
+          <Button variant="danger" onClick={handleDeleteWallet}>
+            Hapus
+          </Button>
           <Button variant="secondary" onClick={() => setIsEditModalOpen(true)}>
-            Edit Dompet
+            Edit
           </Button>
           <Button variant="primary" icon={Plus} onClick={() => setIsTransactionModalOpen(true)}>
-            Tambah Transaksi
+            Transaksi
           </Button>
         </div>
       </div>

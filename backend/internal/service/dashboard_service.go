@@ -39,10 +39,12 @@ func (s *DashboardService) GetSummary(userID int) (*DashboardSummary, error) {
 		return nil, fmt.Errorf("failed to fetch wallets: %w", err)
 	}
 
-	// Calculate total balance
+	// Calculate total balance (only for 'tabungan' type)
 	var totalBalance float64
 	for _, wallet := range wallets {
-		totalBalance += wallet.Balance
+		if wallet.Type == "tabungan" || wallet.Type == "Tabungan" {
+			totalBalance += wallet.Balance
+		}
 	}
 
 	// Get transaction stats

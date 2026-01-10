@@ -23,6 +23,14 @@ export const formatDate = (date, format = "full") => {
     monthYear: { month: "long", year: "numeric" },
     dayMonth: { day: "numeric", month: "long" },
     time: { hour: "2-digit", minute: "2-digit" },
+    withTime: {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    },
   };
 
   return new Intl.DateTimeFormat(

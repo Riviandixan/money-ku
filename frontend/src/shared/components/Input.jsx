@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Input.css';
 
 const Input = ({ 
@@ -18,8 +18,7 @@ const Input = ({
   step,
   className = ''
 }) => {
-  const [focused, setFocused] = useState(false);
-  const hasValue = value !== '' && value !== null && value !== undefined;
+
 
   const inputClasses = [
     'input-field',
@@ -30,7 +29,7 @@ const Input = ({
 
   const labelClasses = [
     'input-label',
-    (focused || hasValue) ? 'input-label-float' : ''
+    error ? 'input-label-error' : ''
   ].filter(Boolean).join(' ');
 
   const renderInput = () => {
@@ -38,8 +37,6 @@ const Input = ({
       name,
       value: value || '',
       onChange,
-      onFocus: () => setFocused(true),
-      onBlur: () => setFocused(false),
       disabled,
       required,
       className: inputClasses
@@ -67,6 +64,32 @@ const Input = ({
           />
         );
       
+      case 'currency':
+        const displayValue = value ? new Intl.NumberFormat('id-ID').format(value) : '';
+        const handleCurrencyChange = (e) => {
+          // Remove non-numeric characters except for leading zero
+          const rawValue = e.target.value.replace(/[^\d]/g, '');
+          const numericValue = rawValue === '' ? '' : parseInt(rawValue, 10);
+          onChange({
+            target: {
+              name,
+              value: numericValue
+            }
+          });
+        };
+        return (
+          <div className="currency-input-container">
+            <span className="currency-prefix">Rp</span>
+            <input
+              {...commonProps}
+              type="text"
+              value={displayValue}
+              onChange={handleCurrencyChange}
+              placeholder={placeholder || '0'}
+            />
+          </div>
+        );
+
       default:
         return (
           <input
@@ -83,7 +106,7 @@ const Input = ({
 
   return (
     <div className="input-wrapper">
-      {label && type !== 'select' && (
+      {label && (
         <label className={labelClasses}>
           {label} {required && <span className="input-required">*</span>}
         </label>
