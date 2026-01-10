@@ -134,13 +134,24 @@ const Dashboard = () => {
         ) : (
           <div className="dashboard-wallets-container">
             <div className="dashboard-wallets">
-              {wallets.map(wallet => (
+              {wallets.slice(0, 3).map(wallet => (
                 <WalletCard
                   key={wallet.id}
                   wallet={wallet}
                   onView={handleViewWallet}
                 />
               ))}
+              {wallets.length > 3 && (
+                <div 
+                  className="wallet-card-more"
+                  onClick={() => navigate('/wallets')}
+                >
+                  <div className="wallet-card-more-content">
+                    <Plus size={24} />
+                    <span>Lihat Semua ({wallets.length - 3} lainnya)</span>
+                  </div>
+                </div>
+              )}
             </div>
             
             {wallets.length > 0 && (

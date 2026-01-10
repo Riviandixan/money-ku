@@ -123,6 +123,36 @@ const ReportsPage = () => {
     };
   }, [filteredTransactions]);
 
+  // Chart 3: Income by Category (Doughnut)
+  const incomeChartData = useMemo(() => {
+    const incomes = filteredTransactions.filter(t => t.type === 'income');
+    const categories = {};
+
+    incomes.forEach(t => {
+      const cat = t.category || 'Lainnya';
+      categories[cat] = (categories[cat] || 0) + t.amount;
+    });
+
+    return {
+      labels: Object.keys(categories),
+      datasets: [
+        {
+          data: Object.values(categories),
+          backgroundColor: [
+            'rgba(16, 185, 129, 0.7)',
+            'rgba(59, 130, 246, 0.7)',
+            'rgba(139, 92, 246, 0.7)',
+            'rgba(245, 158, 11, 0.7)',
+            'rgba(236, 72, 153, 0.7)',
+            'rgba(239, 68, 68, 0.7)',
+          ],
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [filteredTransactions]);
+
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -167,12 +197,14 @@ const ReportsPage = () => {
         </div>
         <div className="report-filters">
           <Input 
+            label="Tanggal Mulai"
             type="date"
             name="startDate"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
           <Input 
+            label="Tanggal Selesai"
             type="date"
             name="endDate"
             value={endDate}
@@ -190,12 +222,23 @@ const ReportsPage = () => {
         </Card>
 
         <Card className="chart-card">
-          <h3>Pengeluaran per Kategori (Bulan Ini)</h3>
+          <h3>Pemasukan per Kategori</h3>
+          <div className="chart-container doughnut-container">
+            {incomeChartData.datasets[0].data.length > 0 ? (
+              <Doughnut data={incomeChartData} options={doughnutOptions} />
+            ) : (
+              <div className="no-data">Belum ada pemasukan dalam periode ini</div>
+            )}
+          </div>
+        </Card>
+
+        <Card className="chart-card">
+          <h3>Pengeluaran per Kategori</h3>
           <div className="chart-container doughnut-container">
             {doughnutChartData.datasets[0].data.length > 0 ? (
               <Doughnut data={doughnutChartData} options={doughnutOptions} />
             ) : (
-              <div className="no-data">Belum ada pengeluaran bulan ini</div>
+              <div className="no-data">Belum ada pengeluaran dalam periode ini</div>
             )}
           </div>
         </Card>

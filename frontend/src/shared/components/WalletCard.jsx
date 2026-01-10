@@ -12,11 +12,15 @@ const WalletCard = ({
   onDelete
 }) => {
   const getWalletTypeColor = (type) => {
-    switch (type) {
-      case 'Tabungan':
-      case 'Income':
+    const typeLower = type?.toLowerCase();
+    switch (typeLower) {
+      case 'tabungan':
+        return 'wallet-card-tabungan';
+      case 'transaksi':
+        return 'wallet-card-transaksi';
+      case 'income':
         return 'wallet-card-savings';
-      case 'Pengeluaran':
+      case 'pengeluaran':
         return 'wallet-card-expense';
       default:
         return 'wallet-card-general';

@@ -97,6 +97,33 @@
   font-size: 0.875rem;
 }
 
+.wallet-card-more {
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px dashed rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  min-height: 180px;
+}
+
+.wallet-card-more:hover {
+  background: rgba(139, 92, 246, 0.05);
+  border-color: var(--accent-primary);
+  transform: translateY(-4px);
+}
+
+.wallet-card-more-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
 @media (max-width: 1024px) {
   .dashboard-wallets-container {
     grid-template-columns: 1fr;
