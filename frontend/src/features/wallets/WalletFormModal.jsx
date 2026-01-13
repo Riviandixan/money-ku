@@ -3,6 +3,7 @@ import Modal from '../../shared/components/Modal';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import { useWallet } from '../../context/WalletContext';
+import { toast } from 'react-toastify';
 import './WalletFormModal.css';
 
 const WalletFormModal = ({ isOpen, onClose, wallet = null }) => {
@@ -74,13 +75,23 @@ const WalletFormModal = ({ isOpen, onClose, wallet = null }) => {
       budget: formData.budget ? parseFloat(formData.budget) : null
     };
 
-    if (wallet) {
-      updateWallet(wallet.id, walletData);
-    } else {
-      addWallet(walletData);
-    }
+    const submitWallet = async () => {
+      let result;
+      if (wallet) {
+        result = await updateWallet(wallet.id, walletData);
+      } else {
+        result = await addWallet(walletData);
+      }
 
-    onClose();
+      if (result && result.success) {
+        toast.success(`Dompet "${walletData.name}" berhasil ${wallet ? 'diperbarui' : 'ditambahkan'}`);
+        onClose();
+      } else {
+        toast.error(result?.message || `Gagal ${wallet ? 'memperbarui' : 'menambahkan'} dompet`);
+      }
+    };
+
+    submitWallet();
   };
 
   return (

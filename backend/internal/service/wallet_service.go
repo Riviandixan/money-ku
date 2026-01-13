@@ -121,16 +121,12 @@ func (s *WalletService) UpdateWallet(walletID int, userID int, req UpdateWalletR
 
 func (s *WalletService) DeleteWallet(walletID int, userID int) error {
 	// Get wallet and verify ownership
-	wallet, err := s.GetWalletByID(walletID, userID)
+	_, err := s.GetWalletByID(walletID, userID)
 	if err != nil {
 		return err
 	}
 
-	// Check if wallet has transactions
-	transactions, err := s.transactionRepo.FindByWalletID(wallet.ID)
-	if err == nil && len(transactions) > 0 {
-		return fmt.Errorf("cannot delete wallet with existing transactions")
-	}
+	// Delete the wallet (DB will handle cascade delete of transactions via ON DELETE CASCADE)
 
 	if err := s.walletRepo.Delete(walletID); err != nil {
 		return fmt.Errorf("failed to delete wallet: %w", err)

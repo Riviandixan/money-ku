@@ -13,6 +13,8 @@ import WalletsPage from './features/wallets/WalletsPage';
 import WalletDetailPage from './features/wallets/WalletDetailPage';
 import TransactionsPage from './features/transactions/TransactionsPage';
 import ReportsPage from './features/reports/ReportsPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
@@ -54,6 +56,18 @@ function App() {
           </TransactionProvider>
         </WalletProvider>
       </ThemeProvider>
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </AuthProvider>
   );
 }

@@ -5,28 +5,35 @@ import { useAuth } from '../../context/AuthContext';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import Card from '../../shared/components/Card';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 import './Auth.css';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
     // Simulate network delay for UX
     setTimeout(async () => {
       const result = await login(username, password);
       if (result.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil!',
+          text: `Selamat datang kembali, ${username}!`,
+          timer: 2000,
+          showConfirmButton: false
+        });
         navigate('/');
       } else {
-        setError(result.message);
+        toast.error(result.message || 'Login gagal, periksa username dan password Anda');
         setIsLoading(false);
       }
     }, 800);
@@ -41,8 +48,6 @@ const LoginPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="auth-error">{error}</div>}
-          
           <Input
             label="Username"
             value={username}

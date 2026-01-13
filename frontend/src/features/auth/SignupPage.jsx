@@ -5,28 +5,28 @@ import { useAuth } from '../../context/AuthContext';
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 import Card from '../../shared/components/Card';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 import './Auth.css';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
 
     if (password !== confirmPassword) {
-      setError('Password tidak sama');
+      toast.error('Password tidak sama');
       return;
     }
 
     if (password.length < 4) {
-      setError('Password minimal 4 karakter');
+      toast.error('Password minimal 4 karakter');
       return;
     }
 
@@ -35,9 +35,16 @@ const SignupPage = () => {
     setTimeout(async () => {
       const result = await signup(username, password);
       if (result.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Akun Berhasil Dibuat!',
+          text: 'Silakan masuk untuk mulai mengelola keuangan Anda.',
+          confirmButtonText: 'Sip!',
+          confirmButtonColor: 'var(--primary-color)'
+        });
         navigate('/');
       } else {
-        setError(result.message);
+        toast.error(result.message || 'Gagal membuat akun');
         setIsLoading(false);
       }
     }, 800);
@@ -52,8 +59,6 @@ const SignupPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="auth-error">{error}</div>}
-          
           <Input
             label="Username"
             value={username}

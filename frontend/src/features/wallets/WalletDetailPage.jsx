@@ -10,6 +10,8 @@ import StatCard from '../../shared/components/StatCard';
 import TransactionItem from '../../shared/components/TransactionItem';
 import WalletFormModal from './WalletFormModal';
 import TransactionFormModal from '../transactions/TransactionFormModal';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 import './WalletDetailPage.css';
 
 const WalletDetailPage = () => {
@@ -39,12 +41,25 @@ const WalletDetailPage = () => {
   ).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const handleDeleteWallet = async () => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus dompet ini? Semua riwayat transaksi akan tetap ada namun referensi dompet mungkin hilang.')) {
-      const result = await deleteWallet(parseInt(id));
-      if (result.success) {
+    const result = await Swal.fire({
+      title: 'Hapus Dompet?',
+      text: `Apakah Anda yakin ingin menghapus dompet "${wallet.name}"? Semua riwayat transaksi di dompet ini juga akan terhapus secara permanen.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Ya, Hapus!',
+      cancelButtonText: 'Batal',
+      reverseButtons: true
+    });
+
+    if (result.isConfirmed) {
+      const deleteResult = await deleteWallet(parseInt(id));
+      if (deleteResult.success) {
+        toast.success(`Dompet "${wallet.name}" berhasil dihapus`);
         navigate('/wallets');
       } else {
-        alert(result.message || 'Gagal menghapus dompet');
+        toast.error(deleteResult.message || 'Gagal menghapus dompet');
       }
     }
   };

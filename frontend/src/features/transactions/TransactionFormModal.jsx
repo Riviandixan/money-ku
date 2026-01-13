@@ -5,6 +5,7 @@ import Button from '../../shared/components/Button';
 import { useWallet } from '../../context/WalletContext';
 import { useTransaction } from '../../context/TransactionContext';
 import { formatDateForInput } from '../../utils/formatters';
+import { toast } from 'react-toastify';
 import './TransactionFormModal.css';
 
 const TransactionFormModal = ({ isOpen, onClose }) => {
@@ -102,19 +103,30 @@ const TransactionFormModal = ({ isOpen, onClose }) => {
       description: formData.description.trim()
     };
 
-    if (activeTab === 'income') {
-      addIncome({ ...transactionData, walletId: formData.walletId });
-    } else if (activeTab === 'expense') {
-      addExpense({ ...transactionData, walletId: formData.walletId });
-    } else if (activeTab === 'transfer') {
-      addTransfer({
-        ...transactionData,
-        fromWalletId: formData.fromWalletId,
-        toWalletId: formData.toWalletId
-      });
-    }
+    const submitTransaction = async () => {
+      let result;
+      if (activeTab === 'income') {
+        result = await addIncome({ ...transactionData, walletId: formData.walletId });
+      } else if (activeTab === 'expense') {
+        result = await addExpense({ ...transactionData, walletId: formData.walletId });
+      } else if (activeTab === 'transfer') {
+        result = await addTransfer({
+          ...transactionData,
+          fromWalletId: formData.fromWalletId,
+          toWalletId: formData.toWalletId
+        });
+      }
 
-    onClose();
+      if (result && result.success) {
+        const typeLabel = activeTab === 'income' ? 'Pemasukan' : (activeTab === 'expense' ? 'Pengeluaran' : 'Transfer');
+        toast.success(`${typeLabel} berhasil ditambahkan`);
+        onClose();
+      } else {
+        toast.error(result?.message || 'Gagal menambahkan transaksi');
+      }
+    };
+
+    submitTransaction();
   };
 
   return (
