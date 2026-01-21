@@ -10,7 +10,6 @@ import Card from '../../shared/components/Card';
 import Button from '../../shared/components/Button';
 import WalletCard from '../../shared/components/WalletCard';
 import TransactionItem from '../../shared/components/TransactionItem';
-import Input from '../../shared/components/Input';
 import { Doughnut } from 'react-chartjs-2';
 import { 
   Chart as ChartJS, 
@@ -34,7 +33,6 @@ const Dashboard = () => {
   
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
-  const [filterDate, setFilterDate] = useState(new Date().toISOString().split('T')[0]);
 
   // Get current month data
   const { startDate, endDate } = getDateRangePreset('thisMonth');
@@ -59,13 +57,7 @@ const Dashboard = () => {
           <p className="dashboard-subtitle">Ringkasan keuangan Anda</p>
         </div>
         <div className="dashboard-actions">
-          {/* <Input 
-            type="date"
-            name="filterDate"
-            value={filterDate}
-            onChange={(e) => setFilterDate(e.target.value)}
-            className="dashboard-date-filter"
-          /> */}
+
           <Button 
             variant="tertiary" 
             icon={Wallet}
