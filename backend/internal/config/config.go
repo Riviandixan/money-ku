@@ -44,6 +44,12 @@ func Load() (*Config, error) {
 		rawDSN = strings.TrimSpace(os.Getenv("DB_URL"))
 	}
 
+	// Detect port: prioritize 'PORT' (cloud standard), then 'SERVER_PORT', default to 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = getEnv("SERVER_PORT", "8080")
+	}
+
 	config := &Config{
 		RawDSN: rawDSN,
 		Database: DatabaseConfig{
@@ -54,7 +60,7 @@ func Load() (*Config, error) {
 			DBName:   getEnv("DB_NAME", "db_moneyku"),
 		},
 		Server: ServerConfig{
-			Port: getEnv("SERVER_PORT", "8080"),
+			Port: port,
 		},
 		JWT: JWTConfig{
 			Secret: getEnv("JWT_SECRET", "your-secret-key-change-this-in-production"),
@@ -69,13 +75,18 @@ func (c *Config) GetDSN() string {
 	if c.RawDSN != "" {
 		return c.RawDSN
 	}
+
+	// Use sslmode from environment, default to 'require' for production
+	sslMode := getEnv("DB_SSLMODE", "require")
+
 	return fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		c.Database.Host,
 		c.Database.Port,
 		c.Database.User,
 		c.Database.Password,
 		c.Database.DBName,
+		sslMode,
 	)
 }
 
