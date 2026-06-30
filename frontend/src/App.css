@@ -2,10 +2,11 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #f8f9fa;
 }
 
 .app-main {
   flex: 1;
-  padding-bottom: var(--spacing-2xl);
+  padding: 2.5rem 2rem 3rem;
+  background: #f8f9fa;
 }
-

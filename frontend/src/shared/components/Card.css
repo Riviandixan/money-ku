@@ -1,26 +1,24 @@
 .card {
-  border-radius: var(--radius-xl);
+  border-radius: 12px;
   transition: all var(--transition-base);
   animation: fadeIn var(--transition-slow) ease-out;
 }
 
 .card-default {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  background: #ffffff;
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-card);
 }
 
 .card-gradient {
   background: var(--gradient-primary);
   color: white;
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 24px rgba(91, 46, 230, 0.16);
 }
 
 .card-outlined {
   background: transparent;
-  border: 2px solid var(--border-primary);
+  border: 1px solid var(--border-primary);
 }
 
 .card-solid {
@@ -28,7 +26,6 @@
   border: 1px solid var(--border-secondary);
 }
 
-/* Padding */
 .card-padding-none {
   padding: 0;
 }
@@ -45,10 +42,9 @@
   padding: var(--spacing-xl);
 }
 
-/* Hover Effect */
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .card-clickable {
@@ -56,5 +52,5 @@
 }
 
 .card-clickable:active {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }

@@ -1,0 +1,340 @@
+.budgets-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  background: #f8f9fa;
+}
+
+.budgets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow: var(--shadow-card);
+}
+
+.budgets-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.budgets-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0 0;
+}
+
+/* Period Filter */
+.budgets-filter {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.budget-period-select {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: #ffffff;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.budget-period-select:focus {
+  border-color: var(--accent-primary);
+}
+
+/* Summary */
+.budgets-summary {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.budget-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: #ffffff;
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  flex: 1;
+  min-width: 160px;
+  box-shadow: var(--shadow-card);
+}
+
+.budget-summary-card.warning {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff8f0;
+  border-color: #fed7aa;
+  color: var(--color-warning);
+}
+
+.budget-summary-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.budget-summary-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.budget-summary-value.spent {
+  color: var(--color-expense);
+}
+
+.budget-summary-value.remaining {
+  color: var(--color-income);
+}
+
+.budget-summary-value.over {
+  color: var(--color-error);
+}
+
+/* Loading & Empty */
+.budgets-loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.budgets-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2.25rem;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1px dashed #dcdfe7;
+  box-shadow: none;
+  min-height: 260px;
+}
+
+.budgets-empty-icon {
+  color: var(--accent-primary);
+  opacity: 0.9;
+}
+
+.budgets-empty h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.budgets-empty p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Budget List */
+.budgets-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1rem;
+}
+
+/* Budget Card */
+.budget-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.budget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.budget-card.over {
+  border-color: rgba(220, 38, 38, 0.25) !important;
+  background: #fff8f8 !important;
+}
+
+.budget-card.near {
+  border-color: rgba(217, 119, 6, 0.25) !important;
+  background: #fffbf0 !important;
+}
+
+.budget-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.budget-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.budget-card-category {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.budget-status-icon.over {
+  color: var(--color-error);
+}
+
+.budget-status-icon.done {
+  color: var(--color-income);
+}
+
+.budget-card-amounts {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.budget-spent {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.budget-spent.over {
+  color: var(--color-error);
+}
+
+.budget-separator {
+  color: var(--text-tertiary);
+  margin: 0 0.15rem;
+}
+
+.budget-limit {
+  color: var(--text-secondary);
+}
+
+.budget-card-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.btn-danger-ghost:hover {
+  color: var(--color-error) !important;
+  background: rgba(220, 38, 38, 0.08) !important;
+}
+
+/* Progress Bar */
+.budget-progress-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.budget-progress-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.budget-progress-fill.normal {
+  background: var(--accent-primary);
+}
+
+.budget-progress-fill.near {
+  background: var(--color-warning);
+}
+
+.budget-progress-fill.over {
+  background: var(--color-error);
+}
+
+.budget-percentage {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* Card Footer */
+.budget-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.budget-status-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.budget-status-text.over {
+  color: var(--color-error);
+}
+
+.budget-status-text.remaining {
+  color: var(--color-income);
+}
+
+.budget-period-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: rgba(91, 46, 230, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 768px) {
+  .budgets-page {
+    padding: 1rem;
+  }
+
+  .budgets-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .budgets-title {
+    font-size: 1.5rem;
+  }
+
+  .budgets-summary {
+    flex-direction: column;
+  }
+
+  .budgets-list {
+    grid-template-columns: 1fr;
+  }
+}

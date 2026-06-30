@@ -11,14 +11,14 @@ import Button from '../../shared/components/Button';
 import WalletCard from '../../shared/components/WalletCard';
 import TransactionItem from '../../shared/components/TransactionItem';
 import { Doughnut } from 'react-chartjs-2';
-import { 
-  Chart as ChartJS, 
-  ArcElement, 
-  Tooltip, 
-  Legend, 
-  CategoryScale, 
-  LinearScale, 
-  BarElement 
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
 } from 'chart.js';
 import WalletFormModal from '../wallets/WalletFormModal';
 import TransactionFormModal from '../transactions/TransactionFormModal';
@@ -30,7 +30,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { wallets, getTotalByType } = useWallet();
   const { getRecentTransactions, calculatePeriodTotals } = useTransaction();
-  
+
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
@@ -57,16 +57,15 @@ const Dashboard = () => {
           <p className="dashboard-subtitle">Ringkasan keuangan Anda</p>
         </div>
         <div className="dashboard-actions">
-
-          <Button 
-            variant="tertiary" 
+          <Button
+            variant="outline"
             icon={Wallet}
             onClick={() => setIsWalletModalOpen(true)}
           >
             Tambah Dompet
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             icon={Plus}
             onClick={() => setIsTransactionModalOpen(true)}
           >
@@ -113,7 +112,7 @@ const Dashboard = () => {
             </Button>
           )}
         </div>
-        
+
         {wallets.length === 0 ? (
           <Card className="dashboard-empty">
             <Wallet size={48} className="dashboard-empty-icon" />
@@ -134,7 +133,7 @@ const Dashboard = () => {
                 />
               ))}
               {wallets.length > 3 && (
-                <div 
+                <div
                   className="wallet-card-more"
                   onClick={() => navigate('/wallets')}
                 >
@@ -145,12 +144,12 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
-            
+
             {wallets.length > 0 && (
               <Card className="dashboard-wallets-chart">
                 <h3>Distribusi Saldo</h3>
                 <div className="mini-chart-container">
-                  <Doughnut 
+                  <Doughnut
                     data={{
                       labels: wallets.map(w => w.name),
                       datasets: [{

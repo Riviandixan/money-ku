@@ -13,6 +13,7 @@ type Router struct {
 	transactionHandler *handler.TransactionHandler
 	dashboardHandler   *handler.DashboardHandler
 	reportHandler      *handler.ReportHandler
+	budgetHandler      *handler.BudgetHandler
 }
 
 func NewRouter(
@@ -21,6 +22,7 @@ func NewRouter(
 	transactionHandler *handler.TransactionHandler,
 	dashboardHandler *handler.DashboardHandler,
 	reportHandler *handler.ReportHandler,
+	budgetHandler *handler.BudgetHandler,
 ) *Router {
 	return &Router{
 		authHandler:        authHandler,
@@ -28,6 +30,7 @@ func NewRouter(
 		transactionHandler: transactionHandler,
 		dashboardHandler:   dashboardHandler,
 		reportHandler:      reportHandler,
+		budgetHandler:      budgetHandler,
 	}
 }
 
@@ -84,6 +87,15 @@ func (r *Router) Setup() *gin.Engine {
 			{
 				reports.GET("/transactions", r.reportHandler.GetTransactionReport)
 				reports.GET("/export", r.reportHandler.ExportTransactions)
+			}
+
+			// Budget routes
+			budgets := protected.Group("/budgets")
+			{
+				budgets.POST("", r.budgetHandler.CreateBudget)
+				budgets.GET("", r.budgetHandler.GetBudgets)
+				budgets.PUT("/:id", r.budgetHandler.UpdateBudget)
+				budgets.DELETE("/:id", r.budgetHandler.DeleteBudget)
 			}
 		}
 	}

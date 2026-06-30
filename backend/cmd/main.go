@@ -33,6 +33,7 @@ func main() {
 	userRepo := repository.NewUserRepository(db)
 	walletRepo := repository.NewWalletRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)
+	budgetRepo := repository.NewBudgetRepository(db)
 
 	// Initialize services
 	authService := service.NewAuthService(userRepo)
@@ -40,6 +41,7 @@ func main() {
 	transactionService := service.NewTransactionService(transactionRepo, walletRepo)
 	dashboardService := service.NewDashboardService(walletRepo, transactionRepo)
 	reportService := service.NewReportService(transactionRepo, walletRepo)
+	budgetService := service.NewBudgetService(budgetRepo, transactionRepo)
 
 	// Initialize handlers
 	authHandler := handler.NewAuthHandler(authService)
@@ -47,6 +49,7 @@ func main() {
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 	dashboardHandler := handler.NewDashboardHandler(dashboardService)
 	reportHandler := handler.NewReportHandler(reportService)
+	budgetHandler := handler.NewBudgetHandler(budgetService)
 
 	// Setup router
 	router := app.NewRouter(
@@ -55,6 +58,7 @@ func main() {
 		transactionHandler,
 		dashboardHandler,
 		reportHandler,
+		budgetHandler,
 	)
 
 	// Create and start server

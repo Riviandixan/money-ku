@@ -33,9 +33,15 @@ type JWTConfig struct {
 
 // Load loads configuration from environment variables
 func Load() (*Config, error) {
-	// Load .env file
-	if err := godotenv.Load(); err != nil {
-		// It's okay if .env doesn't exist in production
+	// Load .env file — try multiple paths depending on working directory
+	loaded := false
+	for _, path := range []string{".env", "../.env", "../../.env"} {
+		if err := godotenv.Load(path); err == nil {
+			loaded = true
+			break
+		}
+	}
+	if !loaded {
 		fmt.Println("Warning: .env file not found, using environment variables")
 	}
 
@@ -76,8 +82,8 @@ func (c *Config) GetDSN() string {
 		return c.RawDSN
 	}
 
-	// Use sslmode from environment, default to 'require' for production
-	sslMode := getEnv("DB_SSLMODE", "require")
+	// Use sslmode from environment, default to 'disable' for local dev (no TLS)
+	sslMode := getEnv("DB_SSLMODE", "disable")
 
 	return fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
